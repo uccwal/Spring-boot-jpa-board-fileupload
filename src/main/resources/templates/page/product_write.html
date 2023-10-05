@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <style>
+    .layout{
+      width : 500px;
+      margin : 0 auto;
+      margin-top: 40px;
+    } /*layout 하위에 있는 input태그 스타일 설정*/
+    .layout input{
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .layout textarea{
+      width: 100%;
+      margin-top: 10px;
+      min-height: 300px;
+    }
+  </style>
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <h1>Content</h1>
+  <div class="layout">
+    <!--action: 해당form 안의 데이터를어디로보내줄거냐-->
+    <form action="/product/writepro" method="post" enctype="multipart/form-data">
+      <input name="title" type="text"> <!--네임설정-->
+      <textarea name="content"></textarea>
+      <input name="price" type="text">
+      <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
+      <button type="submit">작성</button>
+      <!--버튼을눌렀을때(submit) form안에있는 데이터가 action에서 지정한 주소로 넘어간다-->
+    </form>
+  </div>
+</div>
+</html>

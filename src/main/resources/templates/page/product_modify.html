@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <style>
+    .layout{
+      width : 500px;
+      margin : 0 auto;
+      margin-top: 40px;
+    } /*layout 하위에 있는 input태그 스타일 설정*/
+    .layout input{
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .layout textarea{
+      width: 100%;
+      margin-top: 10px;
+      min-height: 300px;
+    }
+  </style>
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <h1>Content</h1>
+  <div class="layout">
+    <!--수정6-->
+    <!--id 넘어가도록 설정-->
+    <form th:action="@{/product/update/{id}(id=${product.id})}" method="post" enctype="multipart/form-data">
+      <input name="title" type="text" th:value="${product.title}">
+      <input name="price" type="text" th:value="${product.price}">
+      <input type="file" name="file" th:value="${product.filename}">
+      <!--textarea는 value가 아닌 text로-->
+      <textarea name="content" th:text="${product.content}"></textarea>
+      <button type="submit">수정</button>
+    </form>
+  </div>
+</div>
+</html>
