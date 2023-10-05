@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <style>
+    a:hover{
+      text-decoration: none;
+    }
+    .layout{
+      width: 60%;
+      margin: 0 auto;
+      display: flex;
+      margin-top: 50px;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    } /*layout 하위에 있는 input태그 스타일 설정*/
+    .product-box{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 100%;
+    }
+    .item-box{
+      display: flex;
+      width: 30.3%;
+      height: 400px;
+      margin: 10px;
+      justify-content: center;
+    }
+
+    .item-box a{
+      display: block;
+      width: 300px;
+    }
+    .item-box a img{
+      width: 100%;
+    }
+    .product-info{
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    const page = /*[[${list}]]*/;
+    console.log(page);
+
+
+    $(document).ready(function() {
+      var couponcode = 1111; // 실제 쿠폰 코드로 교체
+      $.ajax({
+        type: 'POST',
+        url: '/api/checkCode',
+        data: JSON.stringify(couponcode),
+        contentType: 'application/json',
+        success: function(response) {
+          console.log(response);
+        }
+      });
+    });
+
+    /*]]>*/
+  </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+
+  <div class="layout">
+
+    <h1>AAA 상품모음</h1>
+    <p>테스트로 적어진 설명문 테스트용</p>
+
+    <div class="product-box">
+      <div class="item-box" th:each="product : ${list}" th:if="${product.productgroup == 'a'}">
+        <a th:href="@{/product/view(id=${product.id})}">
+          <img th:src="@{/webapp/} + ${product.filepath}">
+          <div class="product-info">
+            <div class="product-name" th:text="${product.title}">
+            </div>
+            <div class="product-price" th:text="|$ ${product.price}|" >
+            </div>
+          </div>
+          <div class="product-content" th:text="${product.content}"></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="layout">
+
+    <h1>BBB 상품모음</h1>
+    <p>테스트로 적어진 설명문 테스트용</p>
+
+    <div class="product-box">
+      <div class="item-box" th:each="product : ${list}" th:if="${product.productgroup == 'b'}">
+        <a th:href="@{/product/view(id=${product.id})}">
+          <img th:src="@{/webapp/} + ${product.filepath}">
+          <div class="product-info">
+            <div class="product-name" th:text="${product.title}">
+            </div>
+            <div class="product-price" th:text="|$ ${product.price}|" >
+            </div>
+          </div>
+          <div class="product-content" th:text="${product.content}"></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>
+</html>

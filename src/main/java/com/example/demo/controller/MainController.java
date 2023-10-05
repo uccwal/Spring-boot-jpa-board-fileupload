@@ -16,7 +16,7 @@ import java.io.IOException;
 public class MainController {
 
 
-    @GetMapping("/") //어떤 url로 접근할 것인지 정해주는 어노테이션 //localhost:8080/board/write
+    @GetMapping("/test") //어떤 url로 접근할 것인지 정해주는 어노테이션 //localhost:8080/board/write
     public String main() {
         return "index";
     }

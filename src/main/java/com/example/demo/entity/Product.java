@@ -18,6 +18,7 @@ public class Product {
     private String title;
     private String content;
     private Integer price;
+    private String productgroup;
 
     private String filename;//파일이름
     private String filepath;//파일경로

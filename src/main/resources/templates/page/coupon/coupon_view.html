@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        .layout {
+            width: 80%;
+            margin: 80px auto;
+        }
+
+        .flex-box {
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .left-content {
+            width: 40%;
+        }
+
+        .img-box {
+            width: 100%;
+        }
+
+        .img-box img {
+            width: 100%;
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .right-content {
+            width: 25%;
+            margin-left: 50px;
+        }
+
+        .count-layout {
+            display: flex;
+        }
+        .price-layout{
+            display: flex;
+            justify-content: space-around;
+        }
+        h3{
+            text-align: center;
+        }
+        .discountcode-layout{
+            display: flex;
+            justify-content: space-between;
+        }
+        #discountcode{
+            width: 75%;
+        }
+        .custombutton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #5a5a5a;
+            color: #fff;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+        .coderesult{
+            text-align: center;
+            color: red;
+            font-weight: bold;
+        }
+        p{
+            text-align: center;
+            font-weight: 500;
+            margin: 0;
+        }
+    </style>
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+    <script>
+        $(document).ready(function () {
+            $('#plusButton').click(function () {
+                var currentValue = parseFloat($('#numberInput').val());
+                if (!isNaN(currentValue)) {
+                    // 음수가 아닌 경우에만 1을 더함
+                    if (currentValue >= 0) {
+                        $('#numberInput').val(currentValue + 1);
+                    }
+                }
+            });
+
+            $('#minusButton').click(function () {
+                var currentValue = parseFloat($('#numberInput').val());
+                if (!isNaN(currentValue)) {
+                    // 음수가 아닌 경우에만 1을 뺌
+                    if (currentValue > 0) {
+                        $('#numberInput').val(currentValue - 1);
+                    }
+                }
+            });
+
+            $('#numberInput').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 값 제거
+            });
+        });
+    </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+    <!--    <h1 th:text="${product.title}">제목입니다</h1>-->
+    <!--  <p th:text="${product.content}">내용이들어갈부분입니다</p>-->
+    <!--  <img th:src="@{/webapp/} + ${product.filepath}">-->
+    <!--  <p th:text="${product.price}">돈들어가는부분</p>-->
+    <!--  <p th:text="${product.productgroup}">그룹</p>-->
+    <!--  <a th:href="@{/product/delete(id=${product.id})}">글삭제</a>-->
+    <!--  <a th:href="@{/webapp/}+${product.filepath}">다운받기</a>-->
+    <!--  <a th:href="@{/product/modify/{id}(id = ${product.id})}">수정</a>-->
+
+    <div class="layout">
+        <div class="flex-box">
+            <div class="left-content">
+                <div class="img-box">
+                    <img th:src="@{/webapp/} + ${product.filepath}">
+                </div>
+                <div class="product-info">
+                    <div class="product-name" th:text="${product.title}"></div>
+                    <div class="product-price" th:text="|$ ${product.price}|"></div>
+                </div>
+                <div class="product-content" th:text="${product.content}"></div>
+            </div>
+            <div class="right-content">
+                <div class="autocost">
+                    <h2>구매하기</h2>
+
+                    <div class="count-layout">
+                        <button id="minusButton">-</button>
+                        <input type="text" name="count" id="numberInput" value="0">
+                        <button id="plusButton">+</button>
+                    </div>
+                    <div class="price-layout">
+                        <div>가격</div>
+                        <div class="priceresult">$1000</div>
+                    </div>
+                        <h3>할인코드 입력 최대 5%</h3>
+                    <div class="discountcode-layout">
+                        <input type="text" id="discountcode"> <div class="codecheck custombutton">등록하기</div>
+                    </div>
+                    <div class="coderesult">코드 등록에 실패 or 성공했습니다!</div>
+
+                    <div class="discount-list">
+                        <p>1개 이상 = $20</p>
+                        <p>25개 이상 = $17</p>
+                        <p>50개 이상 = $15</p>
+                        <p>100개 이상 = $10</p>
+                    </div>
+
+                    <div class="paycheck custombutton" style="padding: 10px 5px">결제하기</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</html>
