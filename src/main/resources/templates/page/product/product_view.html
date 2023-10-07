@@ -83,6 +83,30 @@
             font-weight: 500;
             margin: 0;
         }
+        .autocost{
+            display:none;
+        }
+        .autocost.active{
+            display: block;
+        }
+        .payment-method{
+            display:none;
+        }
+        .payment-method.active{
+            display:block;
+        }
+
+        .button-layout{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .wd50{
+            width: 48%;
+        }
+        .payment-method-select{
+            height: 350px;
+        }
     </style>
     <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
 </th:block>
@@ -91,6 +115,12 @@
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
     <script>
         /*<![CDATA[*/
+        function priceSet(){
+            var productPrice = [[${product.price}]];
+            var totalPrice = $('#numberInput').val() * productPrice;
+            $(".priceresult").empty();
+            $(".priceresult").append("$ " + totalPrice);
+        }
         $(document).ready(function () {
             $('#plusButton').click(function () {
                 var currentValue = parseFloat($('#numberInput').val());
@@ -98,6 +128,7 @@
                     // 음수가 아닌 경우에만 1을 더함
                     if (currentValue >= 0) {
                         $('#numberInput').val(currentValue + 1);
+                        priceSet();
                     }
                 }
             });
@@ -108,6 +139,7 @@
                     // 음수가 아닌 경우에만 1을 뺌
                     if (currentValue > 0) {
                         $('#numberInput').val(currentValue - 1);
+                        priceSet();
                     }
                 }
             });
@@ -115,6 +147,42 @@
             $('#numberInput').on('input', function () {
                 this.value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 값 제거
             });
+
+
+
+            $('#numberInput').on('input', function() {
+                if($('#numberInput').val() == ''){
+                    $(this).val('0');
+                }
+
+                // 입력된 값에서 맨 앞의 0을 제거합니다.
+                var inputValue = $(this).val();
+                inputValue = inputValue.replace(/^0+/, ''); // 정규 표현식을 사용하여 맨 앞의 0을 제거
+                $(this).val(inputValue); // 제거한 값을 다시 설정
+
+                priceSet();
+
+
+            });
+
+
+            $(".paycheck").on('click', function(){
+                var numberVal = $('#numberInput').val();
+
+                if(numberVal == 0 || numberVal === null){
+                    alert("갯수를 입력해주세요");
+                } else {
+                $(".autocost").removeClass('active');
+                $(".payment-method").addClass('active');
+
+                }
+            });
+            $(".paycheck-back").on("click", function(){
+                $(".payment-method").removeClass('active');
+                $(".autocost").addClass('active');
+
+
+            })
         });
 
 
@@ -173,7 +241,7 @@
                 <div class="product-content" th:text="${product.content}"></div>
             </div>
             <div class="right-content">
-                <div class="autocost">
+                <div class="autocost active">
                     <h2>구매하기</h2>
 
                     <div class="count-layout">
@@ -183,7 +251,7 @@
                     </div>
                     <div class="price-layout">
                         <div>가격</div>
-                        <div class="priceresult">$1000</div>
+                        <div class="priceresult">$ 0</div>
                     </div>
                     <h3>할인코드 입력 최대 5%</h3>
                     <div class="discountcode-layout">
@@ -202,7 +270,32 @@
                     <div class="paycheck custombutton" style="padding: 10px 5px">결제하기</div>
 
                 </div>
+
+
+                <div class="payment-method">
+                    <h2>결제수단</h2>
+                    <div class="payment-method-select">
+                        <select>
+                            <option>계좌이체</option>
+                            <option>국민은행 - 000 0000 0000</option>
+                            <option>국민은행 - 000 0000 0000</option>
+                            <option>국민은행 - 000 0000 0000</option>
+                            <option>국민은행 - 000 0000 0000</option>
+                            <option>국민은행 - 000 0000 0000</option>
+                            <option>국민은행 - 000 0000 0000</option>
+                        </select>
+                    </div>
+
+                    <div class="button-layout">
+                    <div class="paycheck-back custombutton wd50" style="padding: 10px 5px">뒤로</div>
+                    <div class="paycheck2 custombutton wd50" style="padding: 10px 5px">다음으로</div>
+                    </div>
+                </div>
             </div>
+
+
+
+
         </div>
     </div>
 
