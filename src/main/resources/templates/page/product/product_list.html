@@ -83,12 +83,12 @@
   <div class="layout">
 
     <h1>AAA 상품모음</h1>
-    <p>테스트로 적어진 설명문 테스트용123123123</p>
+    <p>테스트로 적어진 설명문 테스트용123123123추</p>
 
     <div class="product-box">
       <div class="item-box" th:each="product : ${list}" th:if="${product.productgroup == 'a'}">
         <a th:href="@{/product/view(id=${product.id})}">
-          <img th:src="@{/static} + ${product.filepath}">
+          <img th:src="@{/webapp} + ${product.filepath}">
           <div class="product-info">
             <div class="product-name" th:text="${product.title}">
             </div>
@@ -110,7 +110,7 @@
     <div class="product-box">
       <div class="item-box" th:each="product : ${list}" th:if="${product.productgroup == 'b'}">
         <a th:href="@{/product/view(id=${product.id})}">
-          <img th:src="@{/static} + ${product.filepath}">
+          <img th:src="@{/webapp/} + ${product.filepath}">
           <div class="product-info">
             <div class="product-name" th:text="${product.title}">
             </div>

@@ -22,7 +22,7 @@ public class ProductController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/")
+    @GetMapping("/product/list")
     public String productList(Model model){
         //BoardService에서 만들어준 boardList가 반환되는데, list라는 이름으로 받아서 넘기겠다는 뜻
         model.addAttribute("list" , productService.productList()); //4번
@@ -40,7 +40,7 @@ public class ProductController {
 
         productService.write(product, file);
         model.addAttribute("message","글작성이 완료되었습니다");
-        model.addAttribute("searchUrl","/");
+        model.addAttribute("searchUrl","/product/list");
 
         return "message";
     }
@@ -61,7 +61,7 @@ public class ProductController {
 
         productService.productDelete(id);
         //게시물삭제하고 게시물리스트로 넘어가야하므로
-        return "redirect:/";
+        return "redirect:/product/list";
     }
 
     //PathVariable이라는 것은 modify 뒤에있는 {id}부분이 인식이되서 Integer형태의 id로 들어온다는것
@@ -83,6 +83,6 @@ public class ProductController {
         productTemp.setContent(product.getContent());
 
         productService.write(productTemp, file); //추가 → 수정한내용을 boardService의 write부분에 넣기
-        return "redirect:/";
+        return "redirect:/product/list";
     }
 }
