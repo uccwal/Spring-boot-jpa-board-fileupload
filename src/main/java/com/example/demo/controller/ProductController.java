@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Product;
+import com.example.demo.service.AccountService;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,14 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private AccountService accountService;
+
     @GetMapping("/")
     public String productList(Model model){
         //BoardService에서 만들어준 boardList가 반환되는데, list라는 이름으로 받아서 넘기겠다는 뜻
         model.addAttribute("list" , productService.productList()); //4번
+
         return "page/product/product_list";
     }
 
@@ -47,6 +52,7 @@ public class ProductController {
     public String productView(Model model, Integer id){
         /*상세페이지4*/
         model.addAttribute("product", productService.productView(id));
+
         return "page/product/product_view";
     }
 

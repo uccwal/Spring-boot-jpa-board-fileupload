@@ -88,7 +88,7 @@
     <div class="product-box">
       <div class="item-box" th:each="product : ${list}" th:if="${product.productgroup == 'a'}">
         <a th:href="@{/product/view(id=${product.id})}">
-          <img th:src="@{/webapp/} + ${product.filepath}">
+          <img th:src="@{/static} + ${product.filepath}">
           <div class="product-info">
             <div class="product-name" th:text="${product.title}">
             </div>
