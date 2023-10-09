@@ -21,7 +21,7 @@ public class ProductService {
 
     public void write(Product product, MultipartFile file) throws IOException {
         /*우리의 프로젝트경로를 담아주게 된다 - 저장할 경로를 지정*/
-        String projectPath = System.getProperty("user.dir") + "/src/main/webapp/img";
+        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/img";
 
         /*식별자 . 랜덤으로 이름 만들어줌*/
         UUID uuid = UUID.randomUUID();
