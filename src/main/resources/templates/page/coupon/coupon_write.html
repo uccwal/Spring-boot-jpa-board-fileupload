@@ -8,19 +8,8 @@
 <th:block layout:fragment="css">
   <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
   <style>
-    .layout{
-      width : 500px;
-      margin : 0 auto;
-      margin-top: 40px;
-    } /*layout 하위에 있는 input태그 스타일 설정*/
-    .layout input{
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .layout textarea{
-      width: 100%;
-      margin-top: 10px;
-      min-height: 300px;
+    .container{
+      max-width:720px;
     }
   </style>
 </th:block>
@@ -31,23 +20,27 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <h1>Content</h1>
-  <div class="layout">
-    <!--action: 해당form 안의 데이터를어디로보내줄거냐-->
-    <form action="/product/writepro" method="post" enctype="multipart/form-data">
-      <input name="title" type="text"> <!--네임설정-->
-      <textarea name="content"></textarea>
-      <input name="price" type="text">
-      <label for="group">Language</label>
-      <select name="productgroup" id="group">
-        <option value="a">a</option>
-        <option value="b">b</option>
-      </select>
+  <div class="container mt-3">
+    <h2>쿠폰등록</h2>
 
-      <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
-      <button type="submit">작성</button>
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+      <div class="col-sm-10">쿠폰등록 페이지</div>
+
+    </div>
+
+    <form action="/admin/coupon/writepro" method="post" enctype="multipart/form-data">
+      <div class="mb-3 mt-3">
+        <label for="couponcode" class="form-label">쿠폰 코드:</label>
+        <input type="text" class="form-control" id="couponcode" placeholder="상품 이름" name="couponcode">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="couponcode" class="form-label">할인률:</label>
+        <input type="number" class="form-control" id="discount" placeholder="상품 이름" name="discount">
+      </div>
+      <button type="submit" class="btn btn-primary">쿠폰등록</button>
       <!--버튼을눌렀을때(submit) form안에있는 데이터가 action에서 지정한 주소로 넘어간다-->
     </form>
+
   </div>
 </div>
 </html>

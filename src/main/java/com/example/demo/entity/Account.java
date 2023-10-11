@@ -17,4 +17,5 @@ public class Account {
     private Integer id;
     private String bank;
     private String number;
+    private String accountHolder;
 }

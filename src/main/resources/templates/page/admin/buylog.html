@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <style>
+    input{
+      text-align: center;
+    }
+  </style>
+
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+
+
+
+    $(document).ready(function() {
+
+
+
+    });
+
+    /*]]>*/
+  </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+
+
+
+  <div class="container mt-4" style="max-width:1700px">
+    <h2>계좌관리</h2>
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+      <div class="col-sm-10">계좌관리 페이지</div>
+      <div class="col-sm-2" style="display: flex;justify-content: flex-end;">
+
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <colgroup>
+        <col style="width: 3%">
+        <col style="width: 18%">
+        <col style="width: 10%">
+        <col style="width: 8%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 8%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 5%">
+        <col style="width: 5%">
+
+      </colgroup>
+      <thead>
+      <tr>
+        <th style="text-align: center">번호</th>
+        <th style="text-align: center">거래 시간</th>
+        <th style="text-align: center">구매 상품</th>
+        <th style="text-align: center">구매 수량</th>
+        <th style="text-align: center">가격</th>
+        <th style="text-align: center">쿠폰번호</th>
+        <th style="text-align: center">은행</th>
+        <th style="text-align: center">아이디</th>
+        <th style="text-align: center">상태</th>
+        <th style="text-align: center">수정</th>
+        <th style="text-align: center">삭제</th>
+      </tr>
+      </thead>
+      <tbody>
+
+        <tr th:each="buylog : ${list}">
+          <form th:action="@{/admin/buylog/update/{id}(id=${buylog.id})}" method="post" enctype="multipart/form-data">
+
+
+          <td th:text="${buylog.id}" style="text-align: center"></td>
+          <td style="text-align: center">
+            <input th:value="${buylog.buyDate}" readonly class="form-control">
+          </td>
+          <td style="text-align: center">
+            <input th:value="${buylog.productName}" readonly class="form-control">
+          </td>
+          <td style="text-align: center">
+            <input th:value="${#numbers.formatInteger(buylog.amount, 0, 'COMMA')}" readonly class="form-control">
+          </td>
+          <td style="text-align: center">
+            <input th:value="${#numbers.formatInteger(buylog.price, 0, 'COMMA')}" readonly class="form-control">
+          </td>
+          <td style="text-align: center">
+            <input th:value="${buylog.couponcode}" readonly class="form-control">
+          </td>
+          <td style="text-align: center">
+            <input th:value="${buylog.bank}" readonly class="form-control">
+          </td>
+          <td style="text-align: center">
+            <input th:value="${buylog.userName}" readonly class="form-control">
+          </td>
+          <td  style="text-align: center">
+            <select id="state" name="state" class="form-select">
+              <option th:value="${buylog.state}" th:text="${buylog.state}" ></option>
+              <option value="거래 진행중">거래 진행중</option>
+              <option value="거래 완료">거래 완료</option>
+              <option value="거래 취소">거래 취소</option>
+            </select>
+
+          </td>
+
+
+          <td style="text-align: center">
+            <button type="submit" class="btn btn-outline-primary">수정</button>
+          </td>
+          <td style="text-align: center"><a th:href="@{/admin/buylog/delete(id=${buylog.id})}">
+            <button type="button" class="btn btn-outline-danger">삭제</button>
+          </a></td>
+          </form>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+
+
+</div>
+</html>

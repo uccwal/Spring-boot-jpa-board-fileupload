@@ -4,6 +4,8 @@ import com.example.demo.entity.Board;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.BoardRepository;
 import com.example.demo.repository.ProductRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +20,9 @@ public class ProductService {
 
     @Autowired //new를 써야하지만, 스프링부트가 알아서 읽어와서 주입을해준다.
     private ProductRepository productRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     public void write(Product product, MultipartFile file) throws IOException {
         /*우리의 프로젝트경로를 담아주게 된다 - 저장할 경로를 지정*/
@@ -47,6 +52,14 @@ public class ProductService {
     public List<Product> productList(){
         //findAll : 테스트보드라는 클래스가 담긴 List를 반환하는것을 확인할수있다
         return productRepository.findAll();
+    }
+    public List<Product> productListDesc(){
+        String jpql = "SELECT e FROM Product e ORDER BY e.id DESC";
+        TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
+
+        List<Product> resultList = query.getResultList();
+
+        return resultList;
     }
 
     public Product productView(Integer id){

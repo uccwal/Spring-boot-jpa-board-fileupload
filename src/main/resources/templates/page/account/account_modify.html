@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default_layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <style>
+   .container{
+     max-width:720px;
+   }
+  </style>
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+  <div class="container mt-3">
+    <h2>쿠폰수정</h2>
+
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+      <div class="col-sm-10">쿠폰수정 페이지</div>
+
+    </div>
+
+    <form th:action="@{/admin/account/update/{id}(id=${account.id})}" method="post" enctype="multipart/form-data">
+
+
+      <div class="mb-3 mt-3">
+        <label for="bank" class="form-label">은행:</label>
+        <input type="text" class="form-control" id="bank" placeholder="은행 이름" name="bank" th:value="${account.bank}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="number" class="form-label">계좌 번호:</label>
+        <input type="text" class="form-control" id="number" placeholder="계좌 번호" name="number" th:value="${account.number}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="accountHolder" class="form-label">예금주:</label>
+        <input type="text" class="form-control" id="accountHolder" placeholder="예금주" name="accountHolder" th:value="${account.accountHolder}">
+      </div>
+
+
+
+
+      <button type="submit" class="btn btn-primary">수정완료</button>
+    </form>
+
+
+  </div>
+</div>
+</html>

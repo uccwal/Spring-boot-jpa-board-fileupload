@@ -17,11 +17,11 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
-    @GetMapping("/coupon/list")
+    @GetMapping("/admin/coupon")
     public String couponList(Model model){
         //BoardService에서 만들어준 boardList가 반환되는데, list라는 이름으로 받아서 넘기겠다는 뜻
-        model.addAttribute("list" , couponService.couponList()); //4번
-        return "page/coupon/coupon_list";
+        model.addAttribute("list" , couponService.couponListDesc()); //4번
+        return "page/admin/coupon";
     }
 
     @GetMapping("/api/couponList")
@@ -41,17 +41,17 @@ public class CouponController {
         }
     }
 
-    @GetMapping("/coupon/write") //어떤 url로 접근할 것인지 정해주는 어노테이션 //localhost:8080/board/write
+    @GetMapping("/admin/coupon/write") //어떤 url로 접근할 것인지 정해주는 어노테이션 //localhost:8080/board/write
     public String couponWriteForm() {
         return "page/coupon/coupon_write";
     }
 
-    @PostMapping("/coupon/writepro")
+    @PostMapping("/admin/coupon/writepro")
     public String couponWritePro(Coupon coupon, Model model) throws Exception{
 
         couponService.write(coupon);
-        model.addAttribute("message","글작성이 완료되었습니다");
-        model.addAttribute("searchUrl","/coupon/list");
+        model.addAttribute("message","쿠폰등록이 완료되었습니다");
+        model.addAttribute("searchUrl","/admin/coupon");
 
         return "message";
     }
@@ -66,15 +66,15 @@ public class CouponController {
         return "page/coupon/coupon_view";
     }
 
-    @GetMapping("/coupon/delete")
+    @GetMapping("/admin/coupon/delete")
         public String couponDelete(Integer id){
         couponService.couponDelete(id);
         //게시물삭제하고 게시물리스트로 넘어가야하므로
-        return "redirect:/coupon/list";
+        return "redirect:/admin/coupon";
     }
 
     //PathVariable이라는 것은 modify 뒤에있는 {id}부분이 인식이되서 Integer형태의 id로 들어온다는것
-    @GetMapping("/coupon/modify/{id}")
+    @GetMapping("/admin/coupon/modify/{id}")
     public String couponModify(@PathVariable("id") Integer id, Model model){
 
         //수정4    //상세페이지에 있는 내용과, 수정페이지의 내용이 같기때문에 위 코드와 같은 것을 확인할수있다
@@ -82,7 +82,7 @@ public class CouponController {
 
         return "page/coupon/coupon_modify";
     }
-    @PostMapping("/coupon/update/{id}")
+    @PostMapping("/admin/coupon/update/{id}")
     public String couponUpdate(@PathVariable("id") Integer id, Coupon coupon) throws IOException {
         //기존에있던글이 담겨져서온다.
         Coupon couponTemp = couponService.couponView(id);
@@ -92,6 +92,6 @@ public class CouponController {
         couponTemp.setDiscount(coupon.getDiscount());
 
         couponService.write(couponTemp); //추가 → 수정한내용을 boardService의 write부분에 넣기
-        return "redirect:/coupon/list";
+        return "redirect:/admin/coupon";
     }
 }

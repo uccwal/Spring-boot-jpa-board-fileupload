@@ -1,9 +1,24 @@
 <html lagn="ko" xmlns:th="http://www.thymeleaf.org">
 <!--footerFragment 선언-->
+<style>
+  span{
+    color:#fff;
+  }
+</style>
 
 <div th:fragment="footerFragment">
-  <div class="copyright">
-    ⓒ 2023  <a href="#none">devpark.demo.com</a> All Rights Reserved.
-  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-lg-start bg-light text-muted" style="position: fixed; bottom: 0;width: 100%">
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2023 Copyright:
+      <a class="text-reset fw-bold" href="#none">devpark.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+
+
 </div>
 </html>

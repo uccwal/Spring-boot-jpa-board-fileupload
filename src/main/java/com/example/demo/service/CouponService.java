@@ -4,6 +4,8 @@ import com.example.demo.entity.Coupon;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.CouponRepository;
 import com.example.demo.repository.ProductRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,9 @@ public class CouponService {
     @Autowired //new를 써야하지만, 스프링부트가 알아서 읽어와서 주입을해준다.
     private CouponRepository couponRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     public void write(Coupon coupon) {
 
         /*파일 저장*/
@@ -29,6 +34,15 @@ public class CouponService {
     public List<Coupon> couponList(){
         //findAll : 테스트보드라는 클래스가 담긴 List를 반환하는것을 확인할수있다
         return couponRepository.findAll();
+    }
+
+    public List<Coupon> couponListDesc(){
+        String jpql = "SELECT e FROM Coupon e ORDER BY e.id DESC";
+        TypedQuery<Coupon> query = entityManager.createQuery(jpql, Coupon.class);
+
+        List<Coupon> resultList = query.getResultList();
+
+        return resultList;
     }
 
     public Coupon couponView(Integer id){

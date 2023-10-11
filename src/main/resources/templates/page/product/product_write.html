@@ -8,19 +8,8 @@
 <th:block layout:fragment="css">
   <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
   <style>
-    .layout{
-      width : 500px;
-      margin : 0 auto;
-      margin-top: 40px;
-    } /*layout 하위에 있는 input태그 스타일 설정*/
-    .layout input{
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .layout textarea{
-      width: 100%;
-      margin-top: 10px;
-      min-height: 300px;
+    .container{
+      max-width:720px;
     }
   </style>
 </th:block>
@@ -31,22 +20,43 @@
 
 <!-- Content -->
 <div layout:fragment="content">
-  <h1>Content</h1>
-  <div class="layout">
-    <!--action: 해당form 안의 데이터를어디로보내줄거냐-->
-    <form action="/product/writepro" method="post" enctype="multipart/form-data">
-      <input name="title" type="text"> <!--네임설정-->
-      <textarea name="content"></textarea>
-      <input name="price" type="text">
-      <label for="group">Language</label>
-      <select name="productgroup" id="group">
-        <option value="a">a</option>
-        <option value="b">b</option>
-      </select>
+  <div class="container mt-3">
+    <h2>상품등록</h2>
 
-      <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
-      <button type="submit">작성</button>
-      <!--버튼을눌렀을때(submit) form안에있는 데이터가 action에서 지정한 주소로 넘어간다-->
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+      <div class="col-sm-10">상품등록 페이지</div>
+
+    </div>
+    <!--action: 해당form 안의 데이터를어디로보내줄거냐-->
+    <form action="/admin/product/writepro" method="post" enctype="multipart/form-data">
+      <div class="mb-3 mt-3">
+        <label for="title" class="form-label">상품 이름:</label>
+        <input type="text" class="form-control" id="title" placeholder="상품 이름" name="title">
+      </div>
+      <label for="content">상품 설명:</label>
+      <textarea class="form-control" rows="5" id="content" name="content"></textarea>
+      <div class="mb-3 mt-3">
+        <label for="price" class="form-label">상품 가격:</label>
+        <input type="number" class="form-control" id="price" placeholder="상품 가격" name="price">
+      </div>
+
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio1" name="productgroup" value="A">A 그룹
+        <label class="form-check-label" for="radio1"></label>
+      </div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio2" name="productgroup" value="B">B 그룹
+        <label class="form-check-label" for="radio2"></label>
+      </div>
+
+      <div class="mb-3 mt-3">
+        <label class="form-label">이미지:</label>
+        <input type="file" name="file">
+      </div>
+
+
+
+      <button type="submit" class="btn btn-primary">상품등록</button>
     </form>
   </div>
 </div>
