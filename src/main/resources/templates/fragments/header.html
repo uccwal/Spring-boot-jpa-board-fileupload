@@ -11,7 +11,8 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="collapsibleNavbar" th:if="${session.userId != null}">
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+<!--                <div class="collapse navbar-collapse" id="collapsibleNavbar" th:if="${session.userId != null}">-->
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/product">상품관리</a>
