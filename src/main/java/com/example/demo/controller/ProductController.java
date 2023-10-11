@@ -37,7 +37,7 @@ public class ProductController {
         model.addAttribute("list" , productService.productListDesc()); //4번
         User loginUser = userService.getLoginUserById(userId);
         if(loginUser == null) {
-            return "redirect:/login/login";
+            return "redirect:/product/list";
         }
         if(!loginUser.getRole().equals(User.UserRole.ADMIN)) {
             return "redirect:/product/list";

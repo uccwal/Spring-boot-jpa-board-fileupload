@@ -105,7 +105,7 @@ public class SessionLoginController {
         session.setAttribute("userId", user.getId());
         session.setMaxInactiveInterval(1800); // Session이 30분동안 유지
 
-        return "redirect:/login";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/logout")
@@ -117,7 +117,7 @@ public class SessionLoginController {
         if(session != null) {
             session.invalidate();
         }
-        return "redirect:/login";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/info")
