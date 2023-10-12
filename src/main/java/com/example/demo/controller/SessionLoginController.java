@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/login")
 public class SessionLoginController {
 
     private final UserService userService;
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping("/login")
     public String home(Model model, @SessionAttribute(name = "userId", required = false) Long userId) {
-        model.addAttribute("loginType", "login");
+//        model.addAttribute("loginType", "login");
         model.addAttribute("pageName", "로그인");
 
         User loginUser = userService.getLoginUserById(userId);
@@ -35,54 +34,21 @@ public class SessionLoginController {
         return "/page/login/home";
     }
 
-    @GetMapping("/join")
-    public String joinPage(Model model) {
-        model.addAttribute("loginType", "login");
-        model.addAttribute("pageName", "로그인");
 
-        model.addAttribute("joinRequest", new JoinRequest());
-        return "/page/login/join";
-    }
 
-    @PostMapping("/join")
-    public String join(@Valid @ModelAttribute JoinRequest joinRequest, BindingResult bindingResult, Model model) {
-        model.addAttribute("loginType", "login");
-        model.addAttribute("pageName", "로그인");
-
-        // loginId 중복 체크
-        if(userService.checkLoginIdDuplicate(joinRequest.getLoginId())) {
-            bindingResult.addError(new FieldError("joinRequest", "loginId", "로그인 아이디가 중복됩니다."));
-        }
-        // 닉네임 중복 체크
-        if(userService.checkNicknameDuplicate(joinRequest.getNickname())) {
-            bindingResult.addError(new FieldError("joinRequest", "nickname", "닉네임이 중복됩니다."));
-        }
-        // password와 passwordCheck가 같은지 체크
-        if(!joinRequest.getPassword().equals(joinRequest.getPasswordCheck())) {
-            bindingResult.addError(new FieldError("joinRequest", "passwordCheck", "바밀번호가 일치하지 않습니다."));
-        }
-
-        if(bindingResult.hasErrors()) {
-            return "/page/login/join";
-        }
-
-        userService.join(joinRequest);
-        return "redirect:/login";
-    }
-
-    @GetMapping("/login")
+    @GetMapping("/admin/login")
     public String loginPage(Model model) {
-        model.addAttribute("loginType", "login");
+//        model.addAttribute("loginType", "login");
         model.addAttribute("pageName", "로그인");
 
         model.addAttribute("loginRequest", new LoginRequest());
-        return "/page/login/login";
+        return "page/login/login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/admin/login")
     public String login(@ModelAttribute LoginRequest loginRequest, BindingResult bindingResult,
                         HttpServletRequest httpServletRequest, Model model) {
-        model.addAttribute("loginType", "login");
+//        model.addAttribute("loginType", "login");
         model.addAttribute("pageName", "로그인");
 
         User user = userService.login(loginRequest);
@@ -93,7 +59,7 @@ public class SessionLoginController {
         }
 
         if(bindingResult.hasErrors()) {
-            return "/page/login/login";
+            return "page/login/login";
         }
 
         // 로그인 성공 => 세션 생성
@@ -108,48 +74,19 @@ public class SessionLoginController {
         return "redirect:/product/list";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/admin/logout")
     public String logout(HttpServletRequest request, Model model) {
-        model.addAttribute("loginType", "login");
+//        model.addAttribute("loginType", "login");
         model.addAttribute("pageName", "로그인");
 
         HttpSession session = request.getSession(false);  // Session이 없으면 null return
         if(session != null) {
             session.invalidate();
         }
-        return "redirect:/product/list";
+        return "redirect:/admin/login";
     }
 
-    @GetMapping("/info")
-    public String userInfo(@SessionAttribute(name = "userId", required = false) Long userId, Model model) {
-        model.addAttribute("loginType", "login");
-        model.addAttribute("pageName", "로그인");
 
-        User loginUser = userService.getLoginUserById(userId);
 
-        if(loginUser == null) {
-            return "redirect:/login/login";
-        }
 
-        model.addAttribute("user", loginUser);
-        return "/page/login/info";
-    }
-
-    @GetMapping("/admin")
-    public String adminPage(@SessionAttribute(name = "userId", required = false) Long userId, Model model) {
-        model.addAttribute("loginType", "login");
-        model.addAttribute("pageName", "로그인");
-
-        User loginUser = userService.getLoginUserById(userId);
-
-        if(loginUser == null) {
-            return "redirect:/login/login";
-        }
-
-        if(!loginUser.getRole().equals(User.UserRole.ADMIN)) {
-            return "redirect:/login";
-        }
-
-        return "/page/login/admin";
-    }
 }

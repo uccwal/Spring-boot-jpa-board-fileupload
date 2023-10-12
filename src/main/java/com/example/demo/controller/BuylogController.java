@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Buylog;
+import com.example.demo.entity.User;
 import com.example.demo.service.BuylogService;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +18,19 @@ public class BuylogController {
     @Autowired
     private BuylogService buylogService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/admin/buylog")
-    public String buylogList(Model model){
+    public String buylogList(Model model, @SessionAttribute(name = "userId", required = false) Long userId){
+
+        User loginUser = userService.getLoginUserById(userId);
+        if(loginUser == null) {
+            return "redirect:/product/list";
+        }
+        if(!loginUser.getRole().equals(User.UserRole.ADMIN)) {
+            return "redirect:/product/list";
+        }
         //BoardService에서 만들어준 boardList가 반환되는데, list라는 이름으로 받아서 넘기겠다는 뜻
         model.addAttribute("list" , buylogService.buylogListDesc()); //4번
         return "page/admin/buylog";
@@ -50,7 +63,15 @@ public class BuylogController {
     }
 
     @GetMapping("/admin/buylog/delete")
-        public String buylogDelete(Integer id){
+        public String buylogDelete(Integer id, @SessionAttribute(name = "userId", required = false) Long userId){
+
+        User loginUser = userService.getLoginUserById(userId);
+        if(loginUser == null) {
+            return "redirect:/product/list";
+        }
+        if(!loginUser.getRole().equals(User.UserRole.ADMIN)) {
+            return "redirect:/product/list";
+        }
         buylogService.buylogDelete(id);
         //게시물삭제하고 게시물리스트로 넘어가야하므로
         return "redirect:/admin/buylog";
@@ -66,7 +87,15 @@ public class BuylogController {
         return "page/buylog/buylog_modify";
     }
     @PostMapping("/admin/buylog/update/{id}")
-    public String buylogUpdate(@PathVariable("id") Integer id, Buylog buylog) throws IOException {
+    public String buylogUpdate(@PathVariable("id") Integer id, Buylog buylog, @SessionAttribute(name = "userId", required = false) Long userId) throws IOException {
+
+        User loginUser = userService.getLoginUserById(userId);
+        if(loginUser == null) {
+            return "redirect:/product/list";
+        }
+        if(!loginUser.getRole().equals(User.UserRole.ADMIN)) {
+            return "redirect:/product/list";
+        }
         //기존에있던글이 담겨져서온다.
         Buylog buylogTemp = buylogService.buylogView(id);
 
